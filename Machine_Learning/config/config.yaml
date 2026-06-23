@@ -1,0 +1,45 @@
+paths:
+  input_parquet: "data/traffic_ml_ready.parquet"
+  output_dir: "outputs"
+  model_dir: "outputs/ml/models"
+
+schema:
+  #columnas que definen el target de riesgo (no se utilizan por el leakage)
+  rx_util_col: "Received Percent Utilization"
+  tx_util_col: "Transmit Percent Utilization"
+
+  #columna temporal usada para features y EDA
+
+  timestamp_col: "FECHA_ARCHIVO"
+
+  #columna para agrupar el horizonte futuro
+  entity_col: "NODE NAME"
+
+  #list de identificadores de alto leakage
+  id_like_cols:
+    - "IP WAN"
+    - "NODE NAME"
+    - "INTERFAZ"
+    - "DIRECCIÓN"
+
+modeling:
+  test_size: 0.20
+  random_state: 42
+  cv_folds: 5
+  risk_threshold: 0.7 #umbral de clasificación
+  min_category_freq: 20 #se establece un umbral para reducir la cardinalidad, categorias con frequencia < min_freq se agrupan a "OTHER"
+  split_strategy: "temporal"
+  precision_floor: 0.40
+  classification_threshold: 0.70
+  target_recall_min: 0.75
+  target_recall_max: 0.90
+  horizon_days: 30 #numeros de días de horizonte temporal
+  cost_fp: 1.0 #coste relativo de falso positivo
+  cost_fn: 5.0 #coste relativo de falso negativo
+  n_iter: 5
+  n_jobs: -1
+
+  drop_cols_leakage: 
+    - "Porcentaje de Utilizacion"
+    - "Received Percent Utilization"
+    - "Transmit Percent Utilization"

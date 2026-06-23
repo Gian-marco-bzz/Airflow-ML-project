@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv
+.venv/
+venv
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Data & Models (DO NOT COMMIT)
+data/raw/*.parquet
+data/raw/*.csv
+data/processed/
+outputs/
+outputs/**/*.pkl
+outputs/**/*.joblib
+outputs/**/*.pt
+
+# Reports & Logs
+logs/
+*.log
+
+# Config
+.env
+.env.local
+config/config.local.yaml
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Temp
+*.tmp
+.cache/

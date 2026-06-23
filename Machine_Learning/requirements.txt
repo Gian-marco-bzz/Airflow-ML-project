@@ -1,0 +1,12 @@
+pandas
+numpy
+pyyaml
+scikit-learn
+category_encoders
+xgboost
+matplotlib
+seaborn
+reportlab
+joblib
+openpyxl
+pyarrow
