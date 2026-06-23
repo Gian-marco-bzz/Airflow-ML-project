@@ -1,0 +1,141 @@
+﻿name: trabajofinalmaster
+services:
+  airflow-scheduler:
+    command:
+      - scheduler
+    depends_on:
+      airflow-webserver:
+        condition: service_started
+        required: true
+    environment:
+      _PIP_ADDITIONAL_REQUIREMENTS: pandas==1.5.3 openpyxl==3.1.2 xlrd==2.0.1 pyarrow==12.0.1
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      PYTHONPATH: /opt/airflow
+    image: apache/airflow:2.8.1
+    networks:
+      default: null
+    restart: always
+    volumes:
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\dags
+        target: /opt/airflow/dags
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\pipeline
+        target: /opt/airflow/pipeline
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\scripts
+        target: /opt/airflow/scripts
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\data
+        target: /opt/airflow/data
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\logs
+        target: /opt/airflow/logs
+        bind: {}
+  airflow-triggerer:
+    command:
+      - triggerer
+    depends_on:
+      airflow-webserver:
+        condition: service_started
+        required: true
+    environment:
+      _PIP_ADDITIONAL_REQUIREMENTS: pandas==1.5.3 openpyxl==3.1.2 xlrd==2.0.1 pyarrow==12.0.1
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      PYTHONPATH: /opt/airflow
+    image: apache/airflow:2.8.1
+    networks:
+      default: null
+    restart: always
+    volumes:
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\dags
+        target: /opt/airflow/dags
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\pipeline
+        target: /opt/airflow/pipeline
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\scripts
+        target: /opt/airflow/scripts
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\data
+        target: /opt/airflow/data
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\logs
+        target: /opt/airflow/logs
+        bind: {}
+  airflow-webserver:
+    command:
+      - webserver
+    depends_on:
+      postgres:
+        condition: service_started
+        required: true
+    environment:
+      _PIP_ADDITIONAL_REQUIREMENTS: pandas==1.5.3 openpyxl==3.1.2 xlrd==2.0.1 pyarrow==12.0.1
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      PYTHONPATH: /opt/airflow
+    image: apache/airflow:2.8.1
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\dags
+        target: /opt/airflow/dags
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\pipeline
+        target: /opt/airflow/pipeline
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\scripts
+        target: /opt/airflow/scripts
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\data
+        target: /opt/airflow/data
+        bind: {}
+      - type: bind
+        source: C:\Users\gianm\Desktop\EAE_master_BIG_DATA\TFM\TrabajoFinalMaster\logs
+        target: /opt/airflow/logs
+        bind: {}
+  postgres:
+    environment:
+      POSTGRES_DB: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_USER: airflow
+    image: postgres:13
+    restart: always
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: postgres-db-volume
+        target: /var/lib/postgresql/data
+        volume: {}
+networks:
+  default:
+    name: trabajofinalmaster_default
+volumes:
+  postgres-db-volume:
+    name: trabajofinalmaster_postgres-db-volume
